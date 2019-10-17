@@ -4364,7 +4364,8 @@ var Gitmint =
                     localStorage.removeItem(_constants.LS_USER_KEY);
                     this.state.user = {};
                     try {
-                        document.getElementsByClassName('avatar')[0].getElementsByTagName('img')[0].src = user.avatar_url;
+                        var avatar_img=document.getElementsByClassName('avatar')[0].getElementsByTagName('img')[0];
+                        avatar_img.src = avatar_img.getAttribute("none-src");
                     } catch (e) {
 
                     }
