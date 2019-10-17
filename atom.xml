@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>空</title>
+  <icon>http://blog.shiyunjin.com/images/favicon.png</icon>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://blog.shiyunjin.com/"/>
+  <updated>2019-10-17T09:13:24.639Z</updated>
+  <id>http://blog.shiyunjin.com/</id>
+  
+  <author>
+    <name>石蕴金</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Mac上使用GPG签名提交Git</title>
+    <link href="http://blog.shiyunjin.com/2019/10/17/git-gpg-mac/"/>
+    <id>http://blog.shiyunjin.com/2019/10/17/git-gpg-mac/</id>
+    <published>2019-10-17T09:09:15.000Z</published>
+    <updated>2019-10-17T09:13:24.639Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;使用-brew-安装需要的软件&quot;&gt;&lt;a href=&quot;#使用-brew-安装需要的软件&quot; class=&quot;headerlink&quot; title=&quot;使用 brew 安装需要的软件&quot;&gt;&lt;/a&gt;使用 brew 安装需要的软件&lt;/h1&gt;&lt;pre&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="mac" scheme="http://blog.shiyunjin.com/tags/mac/"/>
+    
+      <category term="git" scheme="http://blog.shiyunjin.com/tags/git/"/>
+    
+      <category term="gpg" scheme="http://blog.shiyunjin.com/tags/gpg/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（三）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/17/tunnelbroker-48-6in4-proxy-3/"/>
+    <id>http://blog.shiyunjin.com/2019/10/17/tunnelbroker-48-6in4-proxy-3/</id>
+    <published>2019-10-17T08:53:26.000Z</published>
+    <updated>2019-10-17T09:04:07.601Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发/48网段的过程。&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+      <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+      <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+      <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows Server 2019使用KMS激活</title>
+    <link href="http://blog.shiyunjin.com/2019/10/16/windows-2019-server-kms/"/>
+    <id>http://blog.shiyunjin.com/2019/10/16/windows-2019-server-kms/</id>
+    <published>2019-10-16T10:26:54.000Z</published>
+    <updated>2019-10-16T10:32:36.994Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;微软推出的Windows Server
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="kms" scheme="http://blog.shiyunjin.com/tags/kms/"/>
+    
+      <category term="windows" scheme="http://blog.shiyunjin.com/tags/windows/"/>
+    
+      <category term="激活" scheme="http://blog.shiyunjin.com/tags/%E6%BF%80%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（二）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/15/tunnelbroker-48-6in4-proxy-2/"/>
+    <id>http://blog.shiyunjin.com/2019/10/15/tunnelbroker-48-6in4-proxy-2/</id>
+    <published>2019-10-15T08:38:07.000Z</published>
+    <updated>2019-10-15T09:01:06.471Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发/48网段的过程。&lt;/p&gt;
+&lt;p&gt;未成功，本次主要记录一种理论上可行的方案，我在实施过程中出现了一些问题，最终放弃了这种方案。经过后期总结可能可行的方案，但是没有尝试过。&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+      <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+      <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+      <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（一）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/14/tunnelbroker_48_6in4_proxy_1/"/>
+    <id>http://blog.shiyunjin.com/2019/10/14/tunnelbroker_48_6in4_proxy_1/</id>
+    <published>2019-10-14T08:42:52.000Z</published>
+    <updated>2019-10-15T06:12:14.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发/48网段的过程。&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+      <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+      <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+      <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+</feed>
