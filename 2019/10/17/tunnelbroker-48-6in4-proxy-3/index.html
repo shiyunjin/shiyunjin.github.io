@@ -9,7 +9,16 @@
             client_id: 'fb7f9fb5f22a8428ff5c'
         }
     });
-})();</script><link rel="stylesheet" href="/highlight/styles/vs2015.css"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="http://github.com/shiyunjin"><i class="fa fa-github"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" onclick="document.gitment.login();" title="Use Github Login"><img src="/images/none.jpg" none-src="/images/none.jpg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>通过tunnelbroker建立一个/48的6in4代理（三）</a></h3></div><div class="post-content"><p>记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发/48网段的过程。</p>
+})();</script><link rel="stylesheet" href="/highlight/styles/vs2015.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+  gtag('set', {'user_id': document.gitment.state.user.id});
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="http://github.com/shiyunjin"><i class="fa fa-github"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" onclick="document.gitment.login();" title="Use Github Login"><img src="/images/none.jpg" none-src="/images/none.jpg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>通过tunnelbroker建立一个/48的6in4代理（三）</a></h3></div><div class="post-content"><p>记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发/48网段的过程。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>坐标上海，电信宽带，SDN网关改了桥接。（吐槽一下上海电信，到现在还没有公网ipv6）<br>一开始的目的是给家里内部接入公网ipv6，分配公网ipv6地址。因为没有端口限制方便在外网直接访问一些服务不用vpn接入家庭内网后才能通信。也想顺便解决一下某些仅ipv6网站的访问问题。但是直接使用6in4隧道接入tunnelbroker在国内有很大的干扰，基本无法正常使用。所以通过外网端口转发ipv6网段，成了最佳选择。当然在如何连到外网端口的问题上就仁者见仁智者见智了（我当前采用的是私有的技术进行链接，从而将外网机器加入家庭内网，分配独立网段，十分稳定）。</p>
 <hr>
 <h2 id="第三次尝试"><a href="#第三次尝试" class="headerlink" title="第三次尝试"></a>第三次尝试</h2><p>经过分析<a href="https://github.com/sskaje/6in4" target="_blank" rel="noopener">sskaje提供的隧道脚本</a>提供的脚本发现，其使用了<code>ip tunnel</code>来实现创建6in4隧道，所以准备自己编写创建隧道脚本。</p>
@@ -33,11 +42,4 @@ ip route add &quot;${route_ip}::/48&quot; dev tun_6in4_0</code></pre>
     document.gitment.render('disqus_thread');
 })();</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.pack.js"></script><script>(function() {
   hljs.initHighlightingOnLoad();
-})();</script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-(function (){
-  gtag('js', new Date());
-  gtag('set', {'user_id': document.gitment.state.user.id});
-
-  gtag('config', 'UA-106563546-3');
 })();</script></body></html>
