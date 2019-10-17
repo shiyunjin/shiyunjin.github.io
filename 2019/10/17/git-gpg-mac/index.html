@@ -38,6 +38,9 @@ git config --global commit.gpgsign true</code></pre>
   hljs.initHighlightingOnLoad();
 })();</script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+(function (){
+  gtag('js', new Date());
+  gtag('set', {'user_id': document.gitment.state.user.id});
 
-gtag('config', 'UA-106563546-3');</script></body></html>
+  gtag('config', 'UA-106563546-3');
+})();</script></body></html>
