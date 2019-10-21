@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.shiyunjin.com/"/>
-  <updated>2019-10-18T08:47:45.876Z</updated>
+  <updated>2019-10-21T12:09:26.128Z</updated>
   <id>http://blog.shiyunjin.com/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（二）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/21/freepbx-synway-SMG4008-SIP-2/"/>
+    <id>http://blog.shiyunjin.com/2019/10/21/freepbx-synway-SMG4008-SIP-2/</id>
+    <published>2019-10-21T11:19:48.000Z</published>
+    <updated>2019-10-21T12:09:26.128Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="freepbx" scheme="http://blog.shiyunjin.com/tags/freepbx/"/>
+    
+      <category term="synway" scheme="http://blog.shiyunjin.com/tags/synway/"/>
+    
+      <category term="SMG4008" scheme="http://blog.shiyunjin.com/tags/SMG4008/"/>
+    
+      <category term="SIP" scheme="http://blog.shiyunjin.com/tags/SIP/"/>
+    
+  </entry>
+  
+  <entry>
     <title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一）</title>
     <link href="http://blog.shiyunjin.com/2019/10/18/freepbx-synway-SMG4008-SIP/"/>
     <id>http://blog.shiyunjin.com/2019/10/18/freepbx-synway-SMG4008-SIP/</id>
     <published>2019-10-18T07:43:38.000Z</published>
-    <updated>2019-10-18T08:47:45.876Z</updated>
+    <updated>2019-10-21T11:48:01.187Z</updated>
     
     <summary type="html">
     
