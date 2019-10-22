@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.shiyunjin.com/"/>
-  <updated>2019-10-21T12:09:26.128Z</updated>
+  <updated>2019-10-22T11:52:25.730Z</updated>
   <id>http://blog.shiyunjin.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>synway SMG4008 特殊字符串密码BUG 找回密码</title>
+    <link href="http://blog.shiyunjin.com/2019/10/22/synway-SMG4008-special-characters-password-bug/"/>
+    <id>http://blog.shiyunjin.com/2019/10/22/synway-SMG4008-special-characters-password-bug/</id>
+    <published>2019-10-22T11:38:05.000Z</published>
+    <updated>2019-10-22T11:52:25.730Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;昨天在修改SMG4008网关的默认密码的时候使用了1password生成的随机密码:
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="synway" scheme="http://blog.shiyunjin.com/tags/synway/"/>
+    
+      <category term="SMG4008" scheme="http://blog.shiyunjin.com/tags/SMG4008/"/>
+    
+      <category term="密码" scheme="http://blog.shiyunjin.com/tags/%E5%AF%86%E7%A0%81/"/>
+    
+      <category term="BUG" scheme="http://blog.shiyunjin.com/tags/BUG/"/>
+    
+  </entry>
   
   <entry>
     <title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（二）</title>
