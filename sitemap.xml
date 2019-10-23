@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.shiyunjin.com/2019/10/23/gpg-sign-all-old-git-commits/</loc>
+    
+    <lastmod>2019-10-23T13:35:59.294Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.shiyunjin.com/2019/10/22/synway-SMG4008-special-characters-password-bug/</loc>
     
     <lastmod>2019-10-22T11:52:25.730Z</lastmod>

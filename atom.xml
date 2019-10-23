@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.shiyunjin.com/"/>
-  <updated>2019-10-22T11:52:25.730Z</updated>
+  <updated>2019-10-23T13:35:59.294Z</updated>
   <id>http://blog.shiyunjin.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>将旧Commit使用GPG进行重新签名</title>
+    <link href="http://blog.shiyunjin.com/2019/10/23/gpg-sign-all-old-git-commits/"/>
+    <id>http://blog.shiyunjin.com/2019/10/23/gpg-sign-all-old-git-commits/</id>
+    <published>2019-10-23T13:30:22.000Z</published>
+    <updated>2019-10-23T13:35:59.294Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;创建了Git仓库并且提交了Commit之后发现之前提交的记录忘记使用GPG进行签名，使用下面的命令即可&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;git filter-branch -f --commit-filter &amp;#39;git
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="git" scheme="http://blog.shiyunjin.com/tags/git/"/>
+    
+      <category term="gpg" scheme="http://blog.shiyunjin.com/tags/gpg/"/>
+    
+      <category term="sign" scheme="http://blog.shiyunjin.com/tags/sign/"/>
+    
+  </entry>
   
   <entry>
     <title>synway SMG4008 特殊字符串密码BUG 找回密码</title>
