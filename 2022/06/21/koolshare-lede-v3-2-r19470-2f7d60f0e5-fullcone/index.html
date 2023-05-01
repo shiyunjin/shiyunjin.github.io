@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>在Koolshare Lede V3.2 上恢复支持fullcone nat · 空</title><meta name="description" content="一直用fw867大神制作的Koolshare lede的系统, 在4月中旬其升级到V3.2用了 5.15.33 版本内核之后,将之前使用的iptables防火墙替换成了全新的 nftables 防火墙,导致之前 iptables-mod-fullconenat 和 kmod-ipt-fullcone"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://twitter.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>在Koolshare Lede V3.2 上恢复支持fullcone nat</a></h3></div><div class="post-content"><p>一直用fw867大神制作的Koolshare lede的系统, 在4月中旬其升级到V3.2用了 <code>5.15.33</code> 版本内核之后,将之前使用的<code>iptables</code>防火墙替换成了全新的 <code>nftables</code> 防火墙,导致之前 <code>iptables-mod-fullconenat</code> 和 <code>kmod-ipt-fullconenat</code> 实现的 fullcone 失效. 最近经过了3个晚上的编译调试终于在其上面实现了 fullcone.</p>
+<h3 id="交流群"><a href="#交流群" class="headerlink" title="交流群"></a>交流群</h3><p>如果安装过程出现问题或技术交流可以加入</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://t.me/+Hi1zwBsT-083MTJl">Telegram交流群</a></li>
+</ul>
+<h1 id="固件版本"><a href="#固件版本" class="headerlink" title="固件版本"></a>固件版本</h1><p>要求必须版本完全一致,否则替换补丁可能会出现预料之外的问题.</p>
+<ul>
+<li>固件版本: <code>Openwrt Koolshare Router V3.2 r19470-2f7d60f0e5</code></li>
+<li>内核版本: <code>5.15.33</code></li>
+</ul>
+<h1 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h1><p>先下载我编译好的需要的文件<br>  Github源:</p>
+<ul>
+<li>仓库地址: <a target="_blank" rel="noopener" href="https://github.com/shiyunjin/koolshare-lede-fullcone/tree/V3.2-r19470-2f7d60f0e5">https://github.com/shiyunjin/koolshare-lede-fullcone/tree/V3.2-r19470-2f7d60f0e5</a></li>
+<li>直接下载: <a target="_blank" rel="noopener" href="https://github.com/shiyunjin/koolshare-lede-fullcone/archive/refs/heads/V3.2-r19470-2f7d60f0e5.zip">点击下载</a></li>
+</ul>
+<h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><p><font color='red'><strong>Tips: 不要在网页<code>软件包</code>页面中通过<code>上传软件包</code>进行安装, 因为版本是一样的会导致跳过安装</strong></font></p>
+<ol>
+<li>将<code>ipk</code>文件夹上传到<code>/tmp</code>目录下,运行   <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /tmp/ipk
+opkg <span class="token function">install</span> kmod-nft-fullcone_5.15.33-1_x86_64.ipk --force-reinstall
+opkg <span class="token function">install</span> libnftnl11_1.2.1-10_x86_64.ipk --force-reinstall
+opkg <span class="token function">install</span> nftables-json_1.0.2-1_x86_64.ipk --force-reinstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>将 <code>usr</code> 文件夹中的文件,按照目录层级进行覆盖到 <code>/usr</code> 目录下</li>
+</ol>
+<ul>
+<li><code>/usr/share/firewall4/templates/ruleset.uc</code> (覆盖)</li>
+<li><code>/usr/share/firewall4/templates/zone-fullcone.uc</code> (新文件)</li>
+<li><code>/usr/share/ucode/fw4.uc</code> (覆盖)</li>
+</ul>
+<ol start="3">
+<li>在网页端 <code>网络 -&gt; 防火墙</code> 开启 <code>wan</code> 区域的 <code>fullcone</code> 选项, 保存并应用<br>   <img src="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/20220621184035.png" alt="fullcone选项"></li>
+<li>执行命令   <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">   root@LEDE:~<span class="token comment"># fw4 restart</span>
+Section @zone<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">(</span>wan<span class="token punctuation">)</span> fullcone enabled <span class="token keyword">for</span> zone <span class="token string">'wan'</span> <span class="token comment">#你应该会看见这句话</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ol>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p><font color='red'><strong>Tips: 这个软件很老,很常用,但是要注意,使用这个软件在Windows上需要把这个软件添加到防火墙允许的应用. 如果不会添加,请直接关闭Windows防火墙否则会报<code>Restricted Port Cone</code></strong></font></p>
+<ul>
+<li>Nat类型检测</li>
+</ul>
+<p>   <img src="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/20220621184425.png" alt="Nat类型检测"></p>
+<ul>
+<li>NatTypeTester: <a target="_blank" rel="noopener" href="https://github.com/HMBSbige/NatTypeTester">https://github.com/HMBSbige/NatTypeTester</a></li>
+</ul>
+<p>   <img src="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/20220621184450.png" alt="NatTypeTester"></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2022-06-21 18:19:32</span><i class="fa fa-comments"></i><a href="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/koolshare/" title="koolshare">koolshare </a><a class="tag" href="/tags/lede/" title="lede">lede </a><a class="tag" href="/tags/fullcone/" title="fullcone">fullcone </a><a class="tag" href="/tags/openwrt/" title="openwrt">openwrt </a><a class="tag" href="/tags/nftables/" title="nftables">nftables </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/,空,在Koolshare Lede V3.2 上恢复支持fullcone nat,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/" title="在 Hexo 上用 Beaudar 替换 Gitment">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2022/06/10/freepbx-volume-low/" title="解决 FreePBX 接打电话声音太小的问题">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>
