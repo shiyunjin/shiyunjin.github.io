@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>通过tunnelbroker建立一个/48的6in4代理（一） · 空</title><meta name="description" content="记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发&amp;#x2F;48网段的过程。
+前言坐标上海，电信宽带，SDN网关改了桥接。（吐槽一下上海电信，到现在还没有公网ipv6）一开始的目的是给家里内部接入公网ipv6，分配公网ipv6地址。因为没有端口限制方便在外网直接"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>通过tunnelbroker建立一个/48的6in4代理（一）</a></h3></div><div class="post-content"><p>记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发&#x2F;48网段的过程。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>坐标上海，电信宽带，SDN网关改了桥接。（吐槽一下上海电信，到现在还没有公网ipv6）<br>一开始的目的是给家里内部接入公网ipv6，分配公网ipv6地址。因为没有端口限制方便在外网直接访问一些服务不用vpn接入家庭内网后才能通信。也想顺便解决一下某些仅ipv6网站的访问问题。但是直接使用6in4隧道接入tunnelbroker在国内有很大的干扰，基本无法正常使用。所以通过外网端口转发ipv6网段，成了最佳选择。当然在如何连到外网端口的问题上就仁者见仁智者见智了（我当前采用的是私有的技术进行链接，从而将外网机器加入家庭内网，分配独立网段，十分稳定）。</p>
+<hr>
+<h2 id="第一次尝试"><a href="#第一次尝试" class="headerlink" title="第一次尝试"></a>第一次尝试</h2><h5 id="成功部分，未完全达成标准，仅分配了64段，48段在第三次尝试"><a href="#成功部分，未完全达成标准，仅分配了64段，48段在第三次尝试" class="headerlink" title="成功部分，未完全达成标准，仅分配了64段，48段在第三次尝试"></a><em><strong>成功部分，未完全达成标准，仅分配了64段，48段在第三次尝试</strong></em></h5><p>由于有我家的外网接入有多个外网端口，全在新加坡（CN2 GIA），通过测试选择了tunnelbroker的日本和香港的多个节点（每个tunnelbroker最多建立5个节点），神奇的是新加坡当地连接新加坡的tunnelbroker节点延迟居然比日本和香港高很多，个人表示无法理解。<br>在查阅各方资料后我选择了<a target="_blank" rel="noopener" href="https://github.com/sskaje/6in4">sskaje提供的隧道脚本</a>。</p>
+<h4 id="配置系统6in4隧道"><a href="#配置系统6in4隧道" class="headerlink" title="配置系统6in4隧道"></a>配置系统6in4隧道</h4><p>我使用外网端口仅有ipv4地址，并不自带ipv6，采用Ubuntu 18.04系统，所以第一部是给这几台机器接上6in4获取到ipv6。</p>
+<h4 id="部署自己的6in4服务"><a href="#部署自己的6in4服务" class="headerlink" title="部署自己的6in4服务"></a>部署自己的6in4服务</h4><pre><code class="bash">git clone https://github.com/sskaje/6in4.git
+</code></pre>
+<p>然后修改配置文件</p>
+<pre><code class="bash">vi 6in4/etc/config.ini
+</code></pre>
+<p>这里需要注意，你需要去tunnelbroker，点击<code>Assign /48</code>生成48网段的ip地址填到下方。</p>
+<pre><code class="ini">; IPv6 network, must be ending with &#39;::&#39;
+; * Required
+IPV6_NETWORK=&lt;你的48网段地址&gt;::
+
+; IPV6 CIDR, must be a multiple of 8.
+; * Required
+; If your IPV6_CIDR is smaller than /64, assigned blocks are /64; if smaller than /48, /48 is used.
+; If IPV6_CIDR is greater than /64, assigned blocks are /(IPV6_CIDR + 16 [ + 8 ]), e.g.: 64-&gt;80, 72-&gt;96, 80-&gt;96
+IPV6_CIDR=48
+
+; Bind tunnel to device INTERFACE
+; * Required
+INTERFACE=&lt;你的提供6in4服务的网卡名称&gt;
+; 比如我的是tun0，如果你没有建立隧道可能需要用eth0
+; 但是我觉得，在公网转发6in4和直连tunnelbroker有区别吗？
+
+; Local IPv4
+; * Optional
+; This is useful if your $INTERFACE has more than one IP.
+; If BIND_IP is not set, script reads first IPv4 ip from $INTERFACE 
+;BIND_IP=1.1.1.1
+
+; MTU
+; Default: 1480
+;LINK_MTU=1480
+</code></pre>
+<p>修改系统转发</p>
+<pre><code class="bash">vi /etc/sysctl.conf
+
+# 找到这行改成 1 开启ipv6转发，没有就添加一行
+net.ipv6.conf.all.forwarding = 1
+
+:x
+
+sysctl -p
+</code></pre>
+<p>由于脚本采用sipcalc进行计算，所以需要安装sipcalc</p>
+<pre><code class="bash">apt-get install -y sipcalc
+</code></pre>
+<p>创建一个隧道 1是编号，可以创建多个，后面是对端地址，也就是接入6in4服务的地址，如果是公网你需要写你客户接入端的公网ip。</p>
+<pre><code class="bash">./6in4/bin/6to4 1 10.0.0.254
+</code></pre>
+<p>之后你会看到</p>
+<pre><code class="vim">Please set up tunnel on your machine with following parameters:
+    Server IPv4 Address:        10.254.0.1
+    Server IPv6 Address:        服务端的端对端ipv6
+    Client IPv4 Address:        10.0.0.254
+    Client IPv6 Address:        这里是对方的端对端ipv6 (需要)
+    Routed /64:                 这里就是对方的路由 (需要)
+
+If you don&#39;t have a static IP, set your local to 0.0.0.0 and invoke update api to update your endpoint
+</code></pre>
+<h4 id="设置对端路由"><a href="#设置对端路由" class="headerlink" title="设置对端路由"></a>设置对端路由</h4><p>有了上面的信息，就可以进行设置对端路由的6in4了。</p>
+<p>简单设置一下lan的 <code>ipv6分配长度</code> 设置为64。 并设置分配提示如：1、2、3即可。</p>
+<p>保存，并且重启lan接口。客户端dhcp renew6一下，已经拿到了公网ipv6，尝试通信成功。</p>
+<h4 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h4><p>但是由于我家内部网络结构比较复杂，有多层交换，存在三个lan分别分给：服务器\智能家居\智能家居无线、有线无线用户接入、VPN接入。而作为接入端我采用的是koolshare的LEDE x86_64所以<code>ipv6分配长度</code>最大只有64，不能分更小的网段出去，导致只有一个lan能拿到ipv6，其他lan都无资源池。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2019-10-14 16:42:52</span><i class="fa fa-wrench"></i><span class="date">2019-10-15 14:12:14</span><i class="fa fa-comments"></i><a href="/2019/10/14/tunnelbroker_48_6in4_proxy_1/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/tunnelbroker/" title="tunnelbroker">tunnelbroker </a><a class="tag" href="/tags/6in4/" title="6in4">6in4 </a><a class="tag" href="/tags/ipv6/" title="ipv6">ipv6 </a><a class="tag" href="/tags/proxy/" title="proxy">proxy </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2019/10/14/tunnelbroker_48_6in4_proxy_1/,空,通过tunnelbroker建立一个/48的6in4代理（一）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/10/15/tunnelbroker-48-6in4-proxy-2/" title="通过tunnelbroker建立一个/48的6in4代理（二）">上一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>

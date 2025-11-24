@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>在 Hexo 上用 Beaudar 替换 Gitment · 空</title><meta name="description" content="博客建成也有3年时间了, 最近在维护的时候发现 gitment 这个项目很久都没有维护了, 而且社区的人提出了关于 gitment 获取的github权限过大, 但这也是没有办法的事情, github oauth 权限并不能指定 issue. 
+寻找替换方案经过一番调研发现了多种替换方案, 其中 @"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>在 Hexo 上用 Beaudar 替换 Gitment</a></h3></div><div class="post-content"><p>博客建成也有3年时间了, 最近在维护的时候发现 <code>gitment</code> 这个项目很久都没有维护了, 而且社区的人提出了关于 <code>gitment</code> 获取的github权限过大, 但这也是没有办法的事情, <code>github oauth</code> 权限并不能指定 <code>issue</code>. </p>
+<h1 id="寻找替换方案"><a href="#寻找替换方案" class="headerlink" title="寻找替换方案"></a>寻找替换方案</h1><p>经过一番调研发现了多种替换方案, 其中 @hmsjy2017 提到</p>
+<pre><code> - utterances 及其衍生版：
+    - utterances
+    - giscus 由 GitHub Discussions 驱动的评论系统。
+    - beaudar 基于 GitHub issue 的轻量评论插件，Utterances 的中文版本
+ - Waline 注重安全，功能强大
+另外，以下评论系统有已知安全风险：
+
+ - Valine （从 v1.4.0 以后闭源，阅读统计篡改，XSS 安全，隐私泄露，垃圾评论）
+ - Gitalk （权限过高，client secret 暴露）
+ - Gitment （权限过高，client secret 暴露）
+ - Vssue （权限过高）
+</code></pre>
+<p> 最终选择了使用 <a target="_blank" rel="noopener" href="https://github.com/beaudar/beaudar">Beaudar</a> 这个项目来作为当前 <code>gitment</code> 的替代方案, <code>Beaudar</code> 是 <a target="_blank" rel="noopener" href="https://github.com/utterance/utterances">Utterances</a> 的中文版本, 使用 <code>Github</code> 最新的 <code>Github Apps</code> 方案来进行评论提交, 精细化权限到仅指定仓库的 <code>Issue</code> 权限. </p>
+<p> 而且后端设计可以使用 <code>Cloudflare Workers</code> 来进行搭建. 之前 <code>Gitment</code> 也是我将其写成了基于 <code>Cloudflare Workers</code> 的方案进行后端服务器搭建(<a target="_blank" rel="noopener" href="https://github.com/shiyunjin/gh-oauth-cf-worker">参见这个项目</a>), 所以其根本原理并没有改变, 继续实现 <code>Serverless</code> 的优雅常驻解决方案.</p>
+<h1 id="搭建自己的Beaudar"><a href="#搭建自己的Beaudar" class="headerlink" title="搭建自己的Beaudar"></a>搭建自己的Beaudar</h1><p>为了长期不维护也能稳定运行, 决定自己搭建一个自用的 <code>Beaudar</code> 供本博客使用. 由于官方其实并没有提供自托管文档, 在参阅了 <code>Utterances</code> 其中一个官方的 <a target="_blank" rel="noopener" href="https://github.com/utterance/utterances/issues/42">Issue</a>, <code>Fork</code> 了相关代码, 进行细致的修改和替换之后(<a target="_blank" rel="noopener" href="https://github.com/shiyunjin/beaudar/commits/master">可以参阅这里的提交</a>). 采用 <code>Cloudflare Pages</code> 和 <code>Cloudflare Workers</code> 进行搭建, 实现 <code>Beaudar over Cloudflare</code> 的目标(虽然写本文章的昨天, <code>Cloudflare</code> 刚刚全球炸了一次, 但是长期看还是很稳定的).</p>
+<ul>
+<li>成果: <a target="_blank" rel="noopener" href="https://comment.shiyunjin.com/">https://comment.shiyunjin.com/</a></li>
+</ul>
+<p>接下来只需要修改模板, 添加支持</p>
+<pre><code class="js">if theme.beaudar
+    #disqus_thread(class=&quot;beaudar&quot; style=&quot;padding-bottom: 300px;&quot;)
+        script(
+            src=&quot;https://comment.shiyunjin.com/client.js&quot;
+            repo=&quot;shiyunjin/shiyunjin.github.io&quot;
+            issue-term=&quot;pathname&quot;
+            label=&quot;💬comment&quot;
+            theme=&quot;github-light&quot;
+            loading=&quot;false&quot;
+            input-position=&quot;top&quot;
+            crossorigin=&quot;anonymous&quot;
+            async
+        )
+</code></pre>
+<h1 id="在下面试一下"><a href="#在下面试一下" class="headerlink" title="在下面试一下"></a>在下面试一下</h1></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2022-06-22 19:46:22</span><i class="fa fa-comments"></i><a href="/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/gitment/" title="gitment">gitment </a><a class="tag" href="/tags/beaudar/" title="beaudar">beaudar </a><a class="tag" href="/tags/hexo/" title="hexo">hexo </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/,空,在 Hexo 上用 Beaudar 替换 Gitment,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2023/05/01/ubuntu-lvm-disk-expansion/" title="记录一次Ubuntu上LVM硬盘扩容">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/" title="在Koolshare Lede V3.2 上恢复支持fullcone nat">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>

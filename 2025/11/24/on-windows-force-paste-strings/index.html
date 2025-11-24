@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>在Windows上强制粘贴字符串 · 空</title><meta name="description" content="在Windows上经常会遇到有些窗口或者网页终端无法进行粘贴的情况。这里使用AutoHotKey模拟手敲键盘输入内容，只需按下Ctrl+Shift+V即可强制粘贴字符串。
+软件版本AutoHotKey v1
+具体实现; 热键为 Ctrl+Shift+V
+^+v::
+    ; --- 修复 #1: "><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>在Windows上强制粘贴字符串</a></h3></div><div class="post-content"><p>在Windows上经常会遇到有些窗口或者网页终端无法进行粘贴的情况。这里使用AutoHotKey模拟手敲键盘输入内容，只需按下<code>Ctrl+Shift+V</code>即可强制粘贴字符串。</p>
+<h1 id="软件版本"><a href="#软件版本" class="headerlink" title="软件版本"></a>软件版本</h1><p>AutoHotKey v1</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><pre><code>; 热键为 Ctrl+Shift+V
+^+v::
+    ; --- 修复 #1: 解决 Shift 键粘滞问题 ---
+    ; 强制释放 Ctrl 和 Shift 键，防止热键执行后修饰键被粘滞。
+    Send &#123;Blind&#125;&#123;LControl up&#125;&#123;LShift up&#125;
+    
+    ; --- 修复 #2: 解决多余空行问题 ---
+    
+    ; 1. 将剪贴板内容保存到一个临时变量，以便修改。
+    ContentToPaste := Clipboard
+    
+    ; 2. 将 Windows 风格的 CRLF (`r`n) 替换为单个换行符 LF (`n)。
+    ; 这样可以消除双重换行导致的空行。
+    ; 注意：在 AutoHotkey v1 中，StrReplace 函数调用需要使用 := 表达式语法。
+    ContentToPaste := StrReplace(ContentToPaste, &quot;`r`n&quot;, &quot;`n&quot;)
+    
+    ; 3. 发送处理后的内容到输入
+    ; 使用 &#123;Text&#125; 模式可以更好地处理包含换行符的长文本，
+    ; 并且比 &#123;Raw&#125; 在某些情况下更稳定。
+    SendInput &#123;Text&#125;%ContentToPaste%
+    
+    Return
+</code></pre>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><a target="_blank" rel="noopener" href="https://github.com/shiyunjin/Windows-Froce-Paste">Github 仓库</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shiyunjin/Windows-Froce-Paste/releases/download/1.0.0/FrocePaste.exe">编译后EXE下载</a></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2025-11-24 14:56:00</span><i class="fa fa-comments"></i><a href="/2025/11/24/on-windows-force-paste-strings/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/categories/Tool/" title="Tool">Tool </a><a class="tag" href="/tags/windows/" title="windows">windows </a><a class="tag" href="/tags/强制粘贴/" title="强制粘贴">强制粘贴 </a><a class="tag" href="/tags/AutoHotKey/" title="AutoHotKey">AutoHotKey </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2025/11/24/on-windows-force-paste-strings/,空,在Windows上强制粘贴字符串,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2024/11/07/an-interpretation-of-the-43rd-chapter-in-tui-bei-tu/" title="推背图第43象的一种解读">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>

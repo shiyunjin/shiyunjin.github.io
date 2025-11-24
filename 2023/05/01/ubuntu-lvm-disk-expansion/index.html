@@ -1,0 +1,780 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>记录一次Ubuntu上LVM硬盘扩容 · 空</title><meta name="description" content="Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-39-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.cano"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>记录一次Ubuntu上LVM硬盘扩容</a></h3></div><div class="post-content"><pre><code class="bash">Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-39-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Jun 18 06:47:02 AM UTC 2022
+
+  System load:            1.0751953125
+  Usage of /:             94.8% of 9.75GB
+  Memory usage:           9%
+  Swap usage:             0%
+  Processes:              343
+  Users logged in:        0
+  IPv4 address for ens33: 10.0.2.2
+  IPv6 address for ens33: 240e:38b:867e:1602::e2d
+  IPv6 address for ens33: 240e:38b:867e:1602:20c:29ff:fec8:c700
+
+  =&gt; / is using 94.8% of 9.75GB
+
+
+0 updates can be applied immediately.
+
+
+Last login: Sat Jun 18 04:52:08 2022 from 10.0.2.40
+syj@ledeleanbuild:~$ sudo fdisk -l
+[sudo] password for syj:
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+GPT PMBR size mismatch (41943039 != 209715199) will be corrected by write.
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start      End  Sectors  Size Type
+/dev/sda1     2048     4095     2048    1M BIOS boot
+/dev/sda2     4096  3719167  3715072  1.8G Linux filesystem
+/dev/sda3  3719168 41940991 38221824 18.2G Linux filesystem
+
+
+
+                                                     Disk: /dev/sda
+                                  Size: 100 GiB, 107374182400 bytes, 209715200 sectors
+                              Label: gpt, identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+    Device                          Start                End            Sectors           Size Type
+    /dev/sda1                        2048               4095               2048             1M BIOS boot
+    /dev/sda2                        4096            3719167            3715072           1.8G Linux filesystem
+&gt;&gt;  /dev/sda3                     3719168           41940991           38221824          18.2G Linux filesystem             Free space                   41940992          209715166          167774175            80G
+
+
+
+
+
+
+
+
+
+
+
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition UUID: F20821C4-5DB3-4873-ADF2-832917BE91B9                                                               │
+ │ Partition type: Linux filesystem (0FC63DAF-8483-4772-8E79-3D69D8477DE4)                                            │
+ │Filesystem UUID: iiGItX-Mhni-0jwS-gOQD-or5c-vm2q-VWTmLU                                                             │
+ │     Filesystem: LVM2_member                                                                                        │
+ └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+                         May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+                                                     Disk: /dev/sda
+                                  Size: 100 GiB, 107374182400 bytes, 209715200 sectors
+                              Label: gpt, identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+    Device                          Start                End            Sectors           Size Type
+    /dev/sda1                        2048               4095               2048             1M BIOS boot
+    /dev/sda2                        4096            3719167            3715072           1.8G Linux filesystem
+&gt;&gt;  /dev/sda3                     3719168          209715166          205995999          98.2G Linux filesystem
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition UUID: F20821C4-5DB3-4873-ADF2-832917BE91B9                                                               │
+ │ Partition type: Linux filesystem (0FC63DAF-8483-4772-8E79-3D69D8477DE4)                                            │
+ │Filesystem UUID: iiGItX-Mhni-0jwS-gOQD-or5c-vm2q-VWTmLU                                                             │
+ │     Filesystem: LVM2_member                                                                                        │
+ └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+                                 Type &quot;yes&quot; or &quot;no&quot;, or press ESC to leave this dialog.
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ sudo parted -l
+Model: VMware, VMware Virtual S (scsi)
+Disk /dev/sda: 107GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags:
+
+Number  Start   End     Size    File system  Name  Flags
+ 1      1049kB  2097kB  1049kB                     bios_grub
+ 2      2097kB  1904MB  1902MB  ext4
+ 3      1904MB  21.5GB  19.6GB
+
+
+Model: Linux device-mapper (linear) (dm)
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 10.7GB
+Sector size (logical/physical): 512B/512B
+Partition Table: loop
+Disk Flags:
+
+Number  Start  End     Size    File system  Flags
+ 1      0.00B  10.7GB  10.7GB  ext4
+
+
+syj@ledeleanbuild:~$ sudo cfdisk
+GPT PMBR size mismatch (41943039 != 209715199) will be corrected by write.
+
+Syncing disks.
+syj@ledeleanbuild:~$ sudo fdisk -l
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start       End   Sectors  Size Type
+/dev/sda1     2048      4095      2048    1M BIOS boot
+/dev/sda2     4096   3719167   3715072  1.8G Linux filesystem
+/dev/sda3  3719168 209715166 205995999 98.2G Linux filesystem
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ dh
+Command &#39;dh&#39; not found, but can be installed with:
+sudo apt install debhelper
+syj@ledeleanbuild:~$ df
+Filesystem                        1K-blocks    Used Available Use% Mounted on
+tmpfs                                398492    1584    396908   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv  10218772 9686400         0 100% /
+tmpfs                               1992460       0   1992460   0% /dev/shm
+tmpfs                                  5120       0      5120   0% /run/lock
+tmpfs                               1992460       0   1992460   0% /run/qemu
+/dev/sda2                           1790136  128136   1552740   8% /boot
+tmpfs                                398492       4    398488   1% /run/user/1000
+syj@ledeleanbuild:~$ sudo fdisk -l
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start       End   Sectors  Size Type
+/dev/sda1     2048      4095      2048    1M BIOS boot
+/dev/sda2     4096   3719167   3715072  1.8G Linux filesystem
+/dev/sda3  3719168 209715166 205995999 98.2G Linux filesystem
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ df
+Filesystem                        1K-blocks    Used Available Use% Mounted on
+tmpfs                                398492    1584    396908   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv  10218772 9686400         0 100% /
+tmpfs                               1992460       0   1992460   0% /dev/shm
+tmpfs                                  5120       0      5120   0% /run/lock
+tmpfs                               1992460       0   1992460   0% /run/qemu
+/dev/sda2                           1790136  128136   1552740   8% /boot
+tmpfs                                398492       4    398488   1% /run/user/1000
+syj@ledeleanbuild:~$ sudo resize2fs -p /dev/sda2
+resize2fs 1.46.5 (30-Dec-2021)
+The filesystem is already 464384 (4k) blocks long.  Nothing to do!
+
+syj@ledeleanbuild:~$ df
+Filesystem                        1K-blocks    Used Available Use% Mounted on
+tmpfs                                398492    1584    396908   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv  10218772 9686400         0 100% /
+tmpfs                               1992460       0   1992460   0% /dev/shm
+tmpfs                                  5120       0      5120   0% /run/lock
+tmpfs                               1992460       0   1992460   0% /run/qemu
+/dev/sda2                           1790136  128136   1552740   8% /boot
+tmpfs                                398492       4    398488   1% /run/user/1000
+syj@ledeleanbuild:~$ sudo fdisk -l
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start       End   Sectors  Size Type
+/dev/sda1     2048      4095      2048    1M BIOS boot
+/dev/sda2     4096   3719167   3715072  1.8G Linux filesystem
+/dev/sda3  3719168 209715166 205995999 98.2G Linux filesystem
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 10 GiB, 10737418240 bytes, 20971520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ sudo resize2fs -p /dev/sda3
+resize2fs 1.46.5 (30-Dec-2021)
+resize2fs: Device or resource busy while trying to open /dev/sda3
+Couldn&#39;t find valid filesystem superblock.
+syj@ledeleanbuild:~$ df
+Filesystem                        1K-blocks    Used Available Use% Mounted on
+tmpfs                                398492    1584    396908   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv  10218772 9686400         0 100% /
+tmpfs                               1992460       0   1992460   0% /dev/shm
+tmpfs                                  5120       0      5120   0% /run/lock
+tmpfs                               1992460       0   1992460   0% /run/qemu
+/dev/sda2                           1790136  128136   1552740   8% /boot
+tmpfs                                398492       4    398488   1% /run/user/1000
+syj@ledeleanbuild:~$ df -i
+Filesystem                        Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                             498115    880 497235    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 655360 369946 285414   57% /
+tmpfs                             498115      1 498114    1% /dev/shm
+tmpfs                             498115      3 498112    1% /run/lock
+tmpfs                             498115      1 498114    1% /run/qemu
+/dev/sda2                         116160    316 115844    1% /boot
+tmpfs                              99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               18.22 GiB
+  PE Size               4.00 MiB
+  Total PE              4665
+  Alloc PE / Size       2560 / 10.00 GiB
+  Free  PE / Size       2105 / 8.22 GiB
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+  Size of logical volume ubuntu-vg/ubuntu-lv changed from 10.00 GiB (2560 extents) to 18.22 GiB (4665 extents).
+  Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+syj@ledeleanbuild:~$ df -i
+Filesystem                        Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                             498115    884 497231    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 655360 370028 285332   57% /
+tmpfs                             498115      1 498114    1% /dev/shm
+tmpfs                             498115      3 498112    1% /run/lock
+tmpfs                             498115      1 498114    1% /run/qemu
+/dev/sda2                         116160    316 115844    1% /boot
+tmpfs                              99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ sudo fdisk -l
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop3: 46.95 MiB, 49233920 bytes, 96160 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop4: 61.93 MiB, 64933888 bytes, 126824 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start       End   Sectors  Size Type
+/dev/sda1     2048      4095      2048    1M BIOS boot
+/dev/sda2     4096   3719167   3715072  1.8G Linux filesystem
+/dev/sda3  3719168 209715166 205995999 98.2G Linux filesystem
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 18.22 GiB, 19566428160 bytes, 38215680 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ df -i
+Filesystem                        Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                             498115    882 497233    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 655360 370024 285336   57% /
+tmpfs                             498115      1 498114    1% /dev/shm
+tmpfs                             498115      3 498112    1% /run/lock
+tmpfs                             498115      1 498114    1% /run/qemu
+/dev/sda2                         116160    316 115844    1% /boot
+tmpfs                              99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+  New size (4665 extents) matches existing size (4665 extents).
+syj@ledeleanbuild:~$ df -i
+Filesystem                        Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                             498115    882 497233    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 655360 370024 285336   57% /
+tmpfs                             498115      1 498114    1% /dev/shm
+tmpfs                             498115      3 498112    1% /run/lock
+tmpfs                             498115      1 498114    1% /run/qemu
+/dev/sda2                         116160    316 115844    1% /boot
+tmpfs                              99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 2, new_desc_blocks = 3
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 4776960 (4k) blocks long.
+
+syj@ledeleanbuild:~$ df -i
+Filesystem                         Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                              498115    882 497233    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 1196032 370024 826008   31% /
+tmpfs                              498115      1 498114    1% /dev/shm
+tmpfs                              498115      3 498112    1% /run/lock
+tmpfs                              498115      1 498114    1% /run/qemu
+/dev/sda2                          116160    316 115844    1% /boot
+tmpfs                               99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ df -i
+Filesystem                         Inodes  IUsed  IFree IUse% Mounted on
+tmpfs                              498115    882 497233    1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 1196032 370024 826008   31% /
+tmpfs                              498115      1 498114    1% /dev/shm
+tmpfs                              498115      3 498112    1% /run/lock
+tmpfs                              498115      1 498114    1% /run/qemu
+/dev/sda2                          116160    316 115844    1% /boot
+tmpfs                               99623     25  99598    1% /run/user/1000
+syj@ledeleanbuild:~$ df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              390M  1.6M  388M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  9.5G  7.7G  56% /
+tmpfs                              2.0G     0  2.0G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+tmpfs                              2.0G     0  2.0G   0% /run/qemu
+/dev/sda2                          1.8G  126M  1.5G   8% /boot
+tmpfs                              390M  4.0K  390M   1% /run/user/1000
+syj@ledeleanbuild:~$ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+resize2fs 1.46.5 (30-Dec-2021)
+The filesystem is already 4776960 (4k) blocks long.  Nothing to do!
+
+syj@ledeleanbuild:~$ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+  New size (4665 extents) matches existing size (4665 extents).
+syj@ledeleanbuild:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               18.22 GiB
+  PE Size               4.00 MiB
+  Total PE              4665
+  Alloc PE / Size       4665 / 18.22 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ sudo lvextend -L 70G /dev/mapper/ubuntu--vg-ubuntu--lv
+  Insufficient free space: 13255 extents needed, but only 0 available
+syj@ledeleanbuild:~$ sudo fdisk -l
+Disk /dev/loop0: 61.89 MiB, 64901120 bytes, 126760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 79.95 MiB, 83832832 bytes, 163736 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 44.68 MiB, 46845952 bytes, 91496 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop3: 46.95 MiB, 49233920 bytes, 96160 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop4: 61.93 MiB, 64933888 bytes, 126824 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EAC17F7E-FB63-4432-B8B3-7686D11D73AF
+
+Device       Start       End   Sectors  Size Type
+/dev/sda1     2048      4095      2048    1M BIOS boot
+/dev/sda2     4096   3719167   3715072  1.8G Linux filesystem
+/dev/sda3  3719168 209715166 205995999 98.2G Linux filesystem
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 18.22 GiB, 19566428160 bytes, 38215680 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+syj@ledeleanbuild:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               18.22 GiB
+  PE Size               4.00 MiB
+  Total PE              4665
+  Alloc PE / Size       4665 / 18.22 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ sudo vgextend ubuntu-vg /dev/sda3
+  Physical volume &#39;/dev/sda3&#39; is already in volume group &#39;ubuntu-vg&#39;
+  Unable to add physical volume &#39;/dev/sda3&#39; to volume group &#39;ubuntu-vg&#39;
+  /dev/sda3: physical volume not initialized.
+syj@ledeleanbuild:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               18.22 GiB
+  PE Size               4.00 MiB
+  Total PE              4665
+  Alloc PE / Size       4665 / 18.22 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ reboot
+Failed to set wall message, ignoring: Interactive authentication required.
+Failed to reboot system via logind: Interactive authentication required.
+Failed to open initctl fifo: Permission denied
+Failed to talk to init daemon.
+syj@ledeleanbuild:~$ sudo reboot
+Connection to 10.0.2.2 closed by remote host.
+Connection to 10.0.2.2 closed.
+</code></pre>
+<pre><code class="bash">Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-39-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Jun 18 06:57:58 AM UTC 2022
+
+  System load:            0.67333984375
+  Usage of /:             52.9% of 17.97GB
+  Memory usage:           9%
+  Swap usage:             0%
+  Processes:              339
+  Users logged in:        0
+  IPv4 address for ens33: 10.0.2.2
+  IPv6 address for ens33: 240e:38b:867e:1602::e2d
+  IPv6 address for ens33: 240e:38b:867e:1602:20c:29ff:fec8:c700
+
+
+0 updates can be applied immediately.
+
+
+Last login: Sat Jun 18 06:47:03 2022 from 10.0.2.40
+syj@ledeleanbuild:~$ sudo vgdisplay
+[sudo] password for syj:
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               18.22 GiB
+  PE Size               4.00 MiB
+  Total PE              4665
+  Alloc PE / Size       4665 / 18.22 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ sudo lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/ubuntu-vg/ubuntu-lv
+  LV Name                ubuntu-lv
+  VG Name                ubuntu-vg
+  LV UUID                B4RL2m-MkQ5-0UlV-pCsd-cF5n-tttR-y7HmAq
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-server, 2022-06-18 04:14:51 +0000
+  LV Status              available
+  # open                 1
+  LV Size                18.22 GiB
+  Current LE             4665
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+syj@ledeleanbuild:~$ sudo pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sda3
+  VG Name               ubuntu-vg
+  PV Size               &lt;18.23 GiB / not usable 3.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              4665
+  Free PE               0
+  Allocated PE          4665
+  PV UUID               iiGItX-Mhni-0jwS-gOQD-or5c-vm2q-VWTmLU
+
+syj@ledeleanbuild:~$ sudo pv
+pvchange   pvck       pvcreate   pvdisplay  pvmove     pvremove   pvresize   pvs        pvscan
+syj@ledeleanbuild:~$ sudo pvresize -h
+  pvresize - Resize physical volume(s)
+
+  pvresize PV ...
+        [    --setphysicalvolumesize Size[m|UNIT] ]
+        [    --reportformat basic|json ]
+        [ COMMON_OPTIONS ]
+
+  Common options for lvm:
+        [ -d|--debug ]
+        [ -h|--help ]
+        [ -q|--quiet ]
+        [ -v|--verbose ]
+        [ -y|--yes ]
+        [ -t|--test ]
+        [    --commandprofile String ]
+        [    --config String ]
+        [    --driverloaded y|n ]
+        [    --nolocking ]
+        [    --lockopt String ]
+        [    --longhelp ]
+        [    --profile String ]
+        [    --version ]
+
+  Use --longhelp to show all options and advanced commands.
+syj@ledeleanbuild:~$ sudo pvresize -v /dev/sda3
+  Archiving volume group &quot;ubuntu-vg&quot; metadata (seqno 3).
+  Resizing volume &quot;/dev/sda3&quot; to 205995999 sectors.
+  Resizing physical volume /dev/sda3 from 4665 to 25145 extents.
+  Updating physical volume &quot;/dev/sda3&quot;
+  Creating volume group backup &quot;/etc/lvm/backup/ubuntu-vg&quot; (seqno 4).
+  Physical volume &quot;/dev/sda3&quot; changed
+  1 physical volume(s) resized or updated / 0 physical volume(s) not resized
+syj@ledeleanbuild:~$ sudo pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sda3
+  VG Name               ubuntu-vg
+  PV Size               &lt;98.23 GiB / not usable 2.98 MiB
+  Allocatable           yes
+  PE Size               4.00 MiB
+  Total PE              25145
+  Free PE               20480
+  Allocated PE          4665
+  PV UUID               iiGItX-Mhni-0jwS-gOQD-or5c-vm2q-VWTmLU
+
+syj@ledeleanbuild:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               98.22 GiB
+  PE Size               4.00 MiB
+  Total PE              25145
+  Alloc PE / Size       4665 / 18.22 GiB
+  Free  PE / Size       20480 / 80.00 GiB
+  VG UUID               qfargh-H6tj-AXJn-9dAn-M8dC-3ahx-jIvULj
+
+syj@ledeleanbuild:~$ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+  Size of logical volume ubuntu-vg/ubuntu-lv changed from 18.22 GiB (4665 extents) to 98.22 GiB (25145 extents).
+  Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+syj@ledeleanbuild:~$ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 3, new_desc_blocks = 13
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 25748480 (4k) blocks long.
+
+syj@ledeleanbuild:~$ df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              390M  1.6M  388M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   97G  9.5G   84G  11% /
+tmpfs                              2.0G     0  2.0G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+tmpfs                              2.0G     0  2.0G   0% /run/qemu
+/dev/sda2                          1.8G  126M  1.5G   8% /boot
+tmpfs                              390M  4.0K  390M   1% /run/user/1000
+syj@ledeleanbuild:~$ cd lede
+syj@ledeleanbuild:~/lede$
+logout
+Connection to 10.0.2.2 closed.
+</code></pre>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2023-05-01 14:27:41</span><i class="fa fa-comments"></i><a href="/2023/05/01/ubuntu-lvm-disk-expansion/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/ubuntu/" title="ubuntu">ubuntu </a><a class="tag" href="/tags/lvm/" title="lvm">lvm </a><a class="tag" href="/tags/disk/" title="disk">disk </a><a class="tag" href="/tags/shell/" title="shell">shell </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2023/05/01/ubuntu-lvm-disk-expansion/,空,记录一次Ubuntu上LVM硬盘扩容,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2024/11/07/an-interpretation-of-the-43rd-chapter-in-tui-bei-tu/" title="推背图第43象的一种解读">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/" title="在 Hexo 上用 Beaudar 替换 Gitment">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>

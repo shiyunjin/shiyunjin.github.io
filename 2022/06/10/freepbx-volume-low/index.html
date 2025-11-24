@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>解决 FreePBX 接打电话声音太小的问题 · 空</title><meta name="description" content="困扰了我许久的通过FreePBX打电话我方说话声音小的问题,终于找到办法解决了
+系统版本FreePBX版本: 16.0.19
+解决方案在 /etc/asterisk/extensions_override_freepbx.conf 中添加
+[macro-dialout-trunk-predial-h"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>解决 FreePBX 接打电话声音太小的问题</a></h3></div><div class="post-content"><p>困扰了我许久的通过FreePBX打电话我方说话声音小的问题,终于找到办法解决了</p>
+<h1 id="系统版本"><a href="#系统版本" class="headerlink" title="系统版本"></a>系统版本</h1><p>FreePBX版本: <code>16.0.19</code></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>在 <code>/etc/asterisk/extensions_override_freepbx.conf</code> 中添加</p>
+<pre><code>[macro-dialout-trunk-predial-hook]
+exten =&gt; s,1,Set(VOLUME(TX)=5)
+exten =&gt; s,n,Set(VOLUME(RX)=5)
+
+[macro-dialout-one-predial-hook]
+exten =&gt; s,1,Set(VOLUME(TX)=5)
+exten =&gt; s,n,Set(VOLUME(RX)=5)
+
+[from-pstn-custom]
+exten =&gt; _.,1,Set(VOLUME(TX)=5)
+exten =&gt; _.,n,Set(VOLUME(RX)=5)
+
+[from-internal-custom]
+exten =&gt; _.,1,Set(VOLUME(TX)=5)
+exten =&gt; _.,n,Set(VOLUME(RX)=5)
+</code></pre>
+<h2 id="音量大小"><a href="#音量大小" class="headerlink" title="音量大小"></a>音量大小</h2><p>文章中设置的是 <code>5</code> , 范围是 <code>0 - 10</code> 我经过我自己的测试感觉 <code>5</code> 是正好的,过大会爆音和产生回音消除.</p>
+<p>关于音量测试可以通过拨打 <code>*43</code> 进行回声测试 (实际情况还是要真实拨打电话测试的,内部电话和中继电话并不是同一个拨号方案,会有些许不同)</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p>仅适用于 <code>PJSIP</code> . </p>
+<p>对于使用了中继方案外接网关的,如果无效请检查你们的拨号方案(参考: <a href="/2019/10/18/freepbx-synway-SMG4008-SIP/" title="FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一）">这篇文章</a> 中配置文件的 <code>context=from-pstn</code> )</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2022-06-10 13:40:11</span><i class="fa fa-comments"></i><a href="/2022/06/10/freepbx-volume-low/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/freepbx/" title="freepbx">freepbx </a><a class="tag" href="/tags/SIP/" title="SIP">SIP </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2022/06/10/freepbx-volume-low/,空,解决 FreePBX 接打电话声音太小的问题,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/" title="在Koolshare Lede V3.2 上恢复支持fullcone nat">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/10/23/gpg-sign-all-old-git-commits/" title="将旧Commit使用GPG进行重新签名">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>空</title>
+  <icon>http://blog.shiyunjin.com/images/favicon.png</icon>
+  
+  <link href="http://blog.shiyunjin.com/atom.xml" rel="self"/>
+  
+  <link href="http://blog.shiyunjin.com/"/>
+  <updated>2025-11-24T06:56:00.000Z</updated>
+  <id>http://blog.shiyunjin.com/</id>
+  
+  <author>
+    <name>石蕴金</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Windows上强制粘贴字符串</title>
+    <link href="http://blog.shiyunjin.com/2025/11/24/on-windows-force-paste-strings/"/>
+    <id>http://blog.shiyunjin.com/2025/11/24/on-windows-force-paste-strings/</id>
+    <published>2025-11-24T06:56:00.000Z</published>
+    <updated>2025-11-24T06:56:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在Windows上经常会遇到有些窗口或者网页终端无法进行粘贴的情况。这里使用AutoHotKey模拟手敲键盘输入内容，只需按下&lt;code&gt;Ctrl+Shift+V&lt;/code&gt;即可强制粘贴字符串。&lt;/p&gt;
+&lt;h1 id=&quot;软件版本&quot;&gt;&lt;a href=&quot;#软件版本&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Tool" scheme="http://blog.shiyunjin.com/categories/Tool/"/>
+    
+    
+    <category term="windows" scheme="http://blog.shiyunjin.com/tags/windows/"/>
+    
+    <category term="强制粘贴" scheme="http://blog.shiyunjin.com/tags/%E5%BC%BA%E5%88%B6%E7%B2%98%E8%B4%B4/"/>
+    
+    <category term="AutoHotKey" scheme="http://blog.shiyunjin.com/tags/AutoHotKey/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>推背图第43象的一种解读</title>
+    <link href="http://blog.shiyunjin.com/2024/11/07/an-interpretation-of-the-43rd-chapter-in-tui-bei-tu/"/>
+    <id>http://blog.shiyunjin.com/2024/11/07/an-interpretation-of-the-43rd-chapter-in-tui-bei-tu/</id>
+    <published>2024-11-06T21:34:00.000Z</published>
+    <updated>2024-11-06T21:34:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;一件事发生之后，翻起之前的各种预言发现总有能套上的，但是发生之前却不一定能看懂。故此记录&lt;/p&gt;
+&lt;h1 id=&quot;原书&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="推背图" scheme="http://blog.shiyunjin.com/tags/%E6%8E%A8%E8%83%8C%E5%9B%BE/"/>
+    
+    <category term="解读" scheme="http://blog.shiyunjin.com/tags/%E8%A7%A3%E8%AF%BB/"/>
+    
+    <category term="预言" scheme="http://blog.shiyunjin.com/tags/%E9%A2%84%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>记录一次Ubuntu上LVM硬盘扩容</title>
+    <link href="http://blog.shiyunjin.com/2023/05/01/ubuntu-lvm-disk-expansion/"/>
+    <id>http://blog.shiyunjin.com/2023/05/01/ubuntu-lvm-disk-expansion/</id>
+    <published>2023-05-01T06:27:41.000Z</published>
+    <updated>2023-05-01T06:27:41.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-39-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ *</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ubuntu" scheme="http://blog.shiyunjin.com/tags/ubuntu/"/>
+    
+    <category term="lvm" scheme="http://blog.shiyunjin.com/tags/lvm/"/>
+    
+    <category term="disk" scheme="http://blog.shiyunjin.com/tags/disk/"/>
+    
+    <category term="shell" scheme="http://blog.shiyunjin.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 Hexo 上用 Beaudar 替换 Gitment</title>
+    <link href="http://blog.shiyunjin.com/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/"/>
+    <id>http://blog.shiyunjin.com/2022/06/22/peplacing-gitment-with-beaudar-on-hexo/</id>
+    <published>2022-06-22T11:46:22.000Z</published>
+    <updated>2022-06-22T11:46:22.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;博客建成也有3年时间了, 最近在维护的时候发现 &lt;code&gt;gitment&lt;/code&gt; 这个项目很久都没有维护了, 而且社区的人提出了关于 &lt;code&gt;gitment&lt;/code&gt; 获取的github权限过大, 但这也是没有办法的事情, &lt;code&gt;github</summary>
+        
+      
+    
+    
+    
+    
+    <category term="gitment" scheme="http://blog.shiyunjin.com/tags/gitment/"/>
+    
+    <category term="beaudar" scheme="http://blog.shiyunjin.com/tags/beaudar/"/>
+    
+    <category term="hexo" scheme="http://blog.shiyunjin.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Koolshare Lede V3.2 上恢复支持fullcone nat</title>
+    <link href="http://blog.shiyunjin.com/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/"/>
+    <id>http://blog.shiyunjin.com/2022/06/21/koolshare-lede-v3-2-r19470-2f7d60f0e5-fullcone/</id>
+    <published>2022-06-21T10:19:32.000Z</published>
+    <updated>2022-06-21T10:19:32.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;一直用fw867大神制作的Koolshare lede的系统, 在4月中旬其升级到V3.2用了 &lt;code&gt;5.15.33&lt;/code&gt; 版本内核之后,将之前使用的&lt;code&gt;iptables&lt;/code&gt;防火墙替换成了全新的 &lt;code&gt;nftables&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="koolshare" scheme="http://blog.shiyunjin.com/tags/koolshare/"/>
+    
+    <category term="lede" scheme="http://blog.shiyunjin.com/tags/lede/"/>
+    
+    <category term="fullcone" scheme="http://blog.shiyunjin.com/tags/fullcone/"/>
+    
+    <category term="openwrt" scheme="http://blog.shiyunjin.com/tags/openwrt/"/>
+    
+    <category term="nftables" scheme="http://blog.shiyunjin.com/tags/nftables/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决 FreePBX 接打电话声音太小的问题</title>
+    <link href="http://blog.shiyunjin.com/2022/06/10/freepbx-volume-low/"/>
+    <id>http://blog.shiyunjin.com/2022/06/10/freepbx-volume-low/</id>
+    <published>2022-06-10T05:40:11.000Z</published>
+    <updated>2022-06-10T05:40:11.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;困扰了我许久的通过FreePBX打电话我方说话声音小的问题,终于找到办法解决了&lt;/p&gt;
+&lt;h1 id=&quot;系统版本&quot;&gt;&lt;a href=&quot;#系统版本&quot; class=&quot;headerlink&quot; title=&quot;系统版本&quot;&gt;&lt;/a&gt;系统版本&lt;/h1&gt;&lt;p&gt;FreePBX版本:</summary>
+        
+      
+    
+    
+    
+    
+    <category term="freepbx" scheme="http://blog.shiyunjin.com/tags/freepbx/"/>
+    
+    <category term="SIP" scheme="http://blog.shiyunjin.com/tags/SIP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>将旧Commit使用GPG进行重新签名</title>
+    <link href="http://blog.shiyunjin.com/2019/10/23/gpg-sign-all-old-git-commits/"/>
+    <id>http://blog.shiyunjin.com/2019/10/23/gpg-sign-all-old-git-commits/</id>
+    <published>2019-10-23T13:30:22.000Z</published>
+    <updated>2019-10-23T13:30:22.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;创建了Git仓库并且提交了Commit之后发现之前提交的记录忘记使用GPG进行签名，使用下面的命令即可&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;git filter-branch -f --commit-filter &amp;#39;git</summary>
+        
+      
+    
+    
+    
+    
+    <category term="gpg" scheme="http://blog.shiyunjin.com/tags/gpg/"/>
+    
+    <category term="git" scheme="http://blog.shiyunjin.com/tags/git/"/>
+    
+    <category term="sign" scheme="http://blog.shiyunjin.com/tags/sign/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>synway SMG4008 特殊字符串密码BUG 找回密码</title>
+    <link href="http://blog.shiyunjin.com/2019/10/22/synway-SMG4008-special-characters-password-bug/"/>
+    <id>http://blog.shiyunjin.com/2019/10/22/synway-SMG4008-special-characters-password-bug/</id>
+    <published>2019-10-22T11:38:05.000Z</published>
+    <updated>2019-10-22T11:38:05.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;昨天在修改SMG4008网关的默认密码的时候使用了1password生成的随机密码:</summary>
+        
+      
+    
+    
+    
+    
+    <category term="synway" scheme="http://blog.shiyunjin.com/tags/synway/"/>
+    
+    <category term="SMG4008" scheme="http://blog.shiyunjin.com/tags/SMG4008/"/>
+    
+    <category term="密码" scheme="http://blog.shiyunjin.com/tags/%E5%AF%86%E7%A0%81/"/>
+    
+    <category term="BUG" scheme="http://blog.shiyunjin.com/tags/BUG/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（二）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/21/freepbx-synway-SMG4008-SIP-2/"/>
+    <id>http://blog.shiyunjin.com/2019/10/21/freepbx-synway-SMG4008-SIP-2/</id>
+    <published>2019-10-21T11:19:48.000Z</published>
+    <updated>2019-10-21T11:19:48.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="freepbx" scheme="http://blog.shiyunjin.com/tags/freepbx/"/>
+    
+    <category term="synway" scheme="http://blog.shiyunjin.com/tags/synway/"/>
+    
+    <category term="SMG4008" scheme="http://blog.shiyunjin.com/tags/SMG4008/"/>
+    
+    <category term="SIP" scheme="http://blog.shiyunjin.com/tags/SIP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/18/freepbx-synway-SMG4008-SIP/"/>
+    <id>http://blog.shiyunjin.com/2019/10/18/freepbx-synway-SMG4008-SIP/</id>
+    <published>2019-10-18T07:43:38.000Z</published>
+    <updated>2019-10-18T07:43:38.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="freepbx" scheme="http://blog.shiyunjin.com/tags/freepbx/"/>
+    
+    <category term="synway" scheme="http://blog.shiyunjin.com/tags/synway/"/>
+    
+    <category term="SMG4008" scheme="http://blog.shiyunjin.com/tags/SMG4008/"/>
+    
+    <category term="SIP" scheme="http://blog.shiyunjin.com/tags/SIP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Mac上使用GPG签名提交Git</title>
+    <link href="http://blog.shiyunjin.com/2019/10/17/git-gpg-mac/"/>
+    <id>http://blog.shiyunjin.com/2019/10/17/git-gpg-mac/</id>
+    <published>2019-10-17T09:09:15.000Z</published>
+    <updated>2019-10-17T09:09:15.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;使用-brew-安装需要的软件&quot;&gt;&lt;a href=&quot;#使用-brew-安装需要的软件&quot; class=&quot;headerlink&quot; title=&quot;使用 brew 安装需要的软件&quot;&gt;&lt;/a&gt;使用 brew 安装需要的软件&lt;/h1&gt;&lt;pre&gt;&lt;code</summary>
+        
+      
+    
+    
+    
+    
+    <category term="gpg" scheme="http://blog.shiyunjin.com/tags/gpg/"/>
+    
+    <category term="git" scheme="http://blog.shiyunjin.com/tags/git/"/>
+    
+    <category term="mac" scheme="http://blog.shiyunjin.com/tags/mac/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（三）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/17/tunnelbroker-48-6in4-proxy-3/"/>
+    <id>http://blog.shiyunjin.com/2019/10/17/tunnelbroker-48-6in4-proxy-3/</id>
+    <published>2019-10-17T08:53:26.000Z</published>
+    <updated>2019-10-17T08:53:26.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发&amp;#x2F;48网段的过程。&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+    <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+    <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+    <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows Server 2019使用KMS激活</title>
+    <link href="http://blog.shiyunjin.com/2019/10/16/windows-2019-server-kms/"/>
+    <id>http://blog.shiyunjin.com/2019/10/16/windows-2019-server-kms/</id>
+    <published>2019-10-16T10:26:54.000Z</published>
+    <updated>2019-10-16T10:26:54.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;微软推出的Windows Server</summary>
+        
+      
+    
+    
+    
+    
+    <category term="windows" scheme="http://blog.shiyunjin.com/tags/windows/"/>
+    
+    <category term="kms" scheme="http://blog.shiyunjin.com/tags/kms/"/>
+    
+    <category term="激活" scheme="http://blog.shiyunjin.com/tags/%E6%BF%80%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（二）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/15/tunnelbroker-48-6in4-proxy-2/"/>
+    <id>http://blog.shiyunjin.com/2019/10/15/tunnelbroker-48-6in4-proxy-2/</id>
+    <published>2019-10-15T08:38:07.000Z</published>
+    <updated>2019-10-15T08:38:07.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发&amp;#x2F;48网段的过程。&lt;/p&gt;
+&lt;p&gt;未成功，本次主要记录一种理论上可行的方案，我在实施过程中出现了一些问题，最终放弃了这种方案。经过后期总结可能可行的方案，但是没有尝试过。&lt;/p&gt;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+    <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+    <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+    <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过tunnelbroker建立一个/48的6in4代理（一）</title>
+    <link href="http://blog.shiyunjin.com/2019/10/14/tunnelbroker_48_6in4_proxy_1/"/>
+    <id>http://blog.shiyunjin.com/2019/10/14/tunnelbroker_48_6in4_proxy_1/</id>
+    <published>2019-10-14T08:42:52.000Z</published>
+    <updated>2019-10-15T06:12:14.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;记录一次通过tunnelbroker申请到的ipv6网段，建立6in4中转服务器，转发&amp;#x2F;48网段的过程。&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="tunnelbroker" scheme="http://blog.shiyunjin.com/tags/tunnelbroker/"/>
+    
+    <category term="6in4" scheme="http://blog.shiyunjin.com/tags/6in4/"/>
+    
+    <category term="ipv6" scheme="http://blog.shiyunjin.com/tags/ipv6/"/>
+    
+    <category term="proxy" scheme="http://blog.shiyunjin.com/tags/proxy/"/>
+    
+  </entry>
+  
+</feed>

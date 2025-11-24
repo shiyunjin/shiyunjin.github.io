@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="石蕴金,to@shiyunjin.cn"><title>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一） · 空</title><meta name="description" content="前言我个人搭建SIP的主要目的是因为我个人有很多手机卡，而手机只有2个卡槽，并且每年出国玩的时候手机带出去就是全球漫游，那基本不敢打电话。所以决定搭建一套自己的SIP Server来进行拨打接听电话，手机里只放一张流量卡，而且在不同地点可以在手机原理身边的时候在其他终端接听电话。还能研究学习一项新技"><meta name="keywords" content="石蕴金,shiyunjin,blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/favicon.ico?" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/highlight/styles/monokai-sublime.min.css"><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-106563546-3"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function (){
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106563546-3');
+})();
+
+</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="sidebar"><div class="logo-title"><div class="title"><img src="https://q3.qlogo.cn/g?b=qq&amp;nk=673988474&amp;s=5" style="width:127px;border-radius: 300px;margin: 10px;"><h3 title=""><a href="/">空</a></h3><div class="description"><p>不因何事去制作 只因兴趣而创造</p></div></div></div><ul class="social-links"><li><a href="https://x.com/shi_yun_jin" target="_blank"><i class="fa fa-twitter"></i></a></li><li><a href="/atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li><li><a href="http://weibo.com/673988474" target="_blank"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/shiyunjin.cn" target="_blank"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/shiyunjin" target="_blank"><i class="fa fa-github"></i></a></li><li><a href="/de6c5d8e.txt" target="_blank"><i class="fa fa-certificate"></i></a></li></ul><div class="footer"><span>Theme by </span><a href="https://www.caicai.me" target="_blank"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank"> Ben</a><div class="by_farbox"><span>Proudly published with </span><a href="https://hexo.io" target="_blank">Hexo</a><span>&#65281;</span></div></div></div><div class="main"><div class="page-top"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><a class="avatar" href="https://t.me/s/shiyunjin" target="_blank" title="订阅我的电报频道"><img src="/images/tg.svg"></a></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post"><div class="post-title"><h3><a>FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一）</a></h3></div><div class="post-content"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我个人搭建SIP的主要目的是因为我个人有很多手机卡，而手机只有2个卡槽，并且每年出国玩的时候手机带出去就是全球漫游，那基本不敢打电话。所以决定搭建一套自己的SIP Server来进行拨打接听电话，手机里只放一张流量卡，而且在不同地点可以在手机原理身边的时候在其他终端接听电话。还能研究学习一项新技术（笑）</p>
+<p>经过多放考虑最后我选择了Synway出品的SMG4008-8LC这款GOIP机器，支持全网通，8个卡槽（长期应该是够用了），SMS Over Email（虽然他也支持SMS Over SIP，但由于FreePBX官方不支持，而且本次我分机主要创建的是PJSIP，而这款机器的SMS是通过Chan SIP发送的，处理起来很麻烦，最后选择了使用Email接收的方式【稳定一些】，当然官方提供了大量API接口，应该是可以写一些机器人发送到如Telegram之类的【之后会考虑】），而且国内还有代理商，可以很方便的买到。</p>
+<p><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/368F336A-B5AB-4E5D-A6B8-A8844EA9B3B6.png" alt="SMG4008"></p>
+<p>卡槽界面</p>
+<p><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/20191018034617.png" alt="卡槽界面"></p>
+<h2 id="搭建FreePBX"><a href="#搭建FreePBX" class="headerlink" title="搭建FreePBX"></a>搭建FreePBX</h2><p>我直接使用了官方ISO镜像（基于CentOS）进行默认搭建，搭完还升了个级，关于FreePBX设置的教程网上很多，上几个图大家也可以参照我图里的进行设置。<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/26CFE640-7AC6-47FC-95C3-46135104026F.png" alt="FreePBX设置图"></p>
+<p>还要设置 PJSIP的UDP,TCO协议开启<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/D463FBE6-4AF2-4866-88BD-E37E64D3008D.png" alt="PJSIP设置图"></p>
+<h3 id="开启端口"><a href="#开启端口" class="headerlink" title="开启端口"></a>开启端口</h3><p>在路由也要做相应转发，当然你FreePBX在外网服务器上开启对应端口即可</p>
+<p><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/32250830-DF0F-41CD-A368-85D6BE640FC7.png" alt="lede路由端口转发"></p>
+<h2 id="对接网关"><a href="#对接网关" class="headerlink" title="对接网关"></a>对接网关</h2><p>首先要将网关整机注册到FreePBX实现SIP互通</p>
+<h3 id="创建中继账号"><a href="#创建中继账号" class="headerlink" title="创建中继账号"></a>创建中继账号</h3><p>选择创建一个 <code>chan_sip</code> 中继<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/e394dc37-8f66-4095-a374-6ea5e2c254cb.png" alt="中继界面"></p>
+<p>首先仅填写中继名<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/70D3FA53-ADCC-49D0-A2D6-D80DB7E34291.png" alt="中继tab1"></p>
+<p>路由规则写 <code>X.</code><br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/A97B1A15-C91D-4506-BFFE-69BEA1697E1B.png" alt="中继路由规则"></p>
+<p>SIP设置页面填写中继名、和中继配置（可参考下方我的配置）<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/EF86A1DC-E353-4F5A-926F-D67C53EE8D0F.png" alt="中继SIP设置"></p>
+<pre><code>host=dynamic
+port=5160
+type=peer
+secret=da*********************随便设置个密码
+context=from-pstn
+dtmfmode=rfc2833
+insecure=no
+qualify=3000
+</code></pre>
+<h3 id="设置出局线路"><a href="#设置出局线路" class="headerlink" title="设置出局线路"></a>设置出局线路</h3><p>设置完中继之后我们还需要设置一下出局线路让FreePBX的分机可以成功走网关进行拨打<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/D715E50A-0808-4085-A1FF-F6C7DBD217B3.png" alt="出局线路界面"></p>
+<p>设置一下匹配中继<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/A6C90A71-CA60-464F-B27C-2EF240E86B29.png" alt="出局线路tab1"></p>
+<p>设置匹配正则表达式为 <code>X.</code><br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/E4470ADC-0764-49CA-99E0-8B3F9DE9AE0A.png" alt="出局线路tab2"></p>
+<h3 id="保存FreePBX配置"><a href="#保存FreePBX配置" class="headerlink" title="保存FreePBX配置"></a>保存FreePBX配置</h3><p>点击 <img src="/2019/10/18/freepbx-synway-SMG4008-SIP/2C9E330F-0060-41D5-A907-4E79F880C701.png" alt="保存按钮"></p>
+<h3 id="注册网关到FreePBX"><a href="#注册网关到FreePBX" class="headerlink" title="注册网关到FreePBX"></a>注册网关到FreePBX</h3><p>来到网关的管理界面，一定要选择注册整个网关，密码就是创建中继配置文件里的那个<br><img src="/2019/10/18/freepbx-synway-SMG4008-SIP/511F052B-44FA-4A2C-A7C9-4457AE2C4C3A.png" alt="网关SIP设置"></p>
+<p>下一章主要讲一下，创建账号并设置SIP和SIM卡的一对一路由</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-plus"></i><span class="date">2019-10-18 15:43:38</span><i class="fa fa-comments"></i><a href="/2019/10/18/freepbx-synway-SMG4008-SIP/#comments">评论</a><i class="fa fa-tag"></i><a class="tag" href="/tags/freepbx/" title="freepbx">freepbx </a><a class="tag" href="/tags/synway/" title="synway">synway </a><a class="tag" href="/tags/SMG4008/" title="SMG4008">SMG4008 </a><a class="tag" href="/tags/SIP/" title="SIP">SIP </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" target="_blank" rel="noopener" href="http://twitter.com/home?status=,http://blog.shiyunjin.com/2019/10/18/freepbx-synway-SMG4008-SIP/,空,FreePBX对接Synway SMG4008网关设备实现SIP网络电话（一）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/10/21/freepbx-synway-SMG4008-SIP-2/" title="FreePBX对接Synway SMG4008网关设备实现SIP网络电话（二）">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/10/17/git-gpg-mac/" title="在Mac上使用GPG签名提交Git">下一篇</a></li></ul></div><style>.beaudar {
+    margin: 0 30px;
+    padding-bottom: 100px;
+}
+@media screen and (max-width: 1350px) {
+    .beaudar {
+        margin: 0 0 !important;
+    }
+}</style><script src="https://comment.shiyunjin.com/client.js" repo="shiyunjin/shiyunjin.github.io" issue-term="pathname" label="💬comment" theme="github-light" loading="false" input-position="top" crossorigin="anonymous" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/highlight/highlight.min.js"></script><script>(function() {
+  hljs.highlightAll();
+})();</script></body></html>
